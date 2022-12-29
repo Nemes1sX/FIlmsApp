@@ -2,10 +2,8 @@
 
 namespace FIlmsApp.Models.Entities
 {
-    public class Film
+    public class Film : BaseEntity
     {
-        public int Id { get; set; }
-        public string? Name { get; set; }
         public DateTime ReleasedDate { get; set; }
         [ForeignKey("Genre")]
         public int GenreId { get; set; }
