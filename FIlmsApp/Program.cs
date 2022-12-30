@@ -1,4 +1,5 @@
 using FIlmsApp.Data;
+using FIlmsApp.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
@@ -22,7 +23,7 @@ builder.Services.AddSwaggerGen(options =>
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
-        Title = "Country Holiday",
+        Title = "Films",
         Description = "An ASP.NET Core Web API for managing Films",
         TermsOfService = new Uri("https://example.com/terms"),
         Contact = new OpenApiContact
@@ -41,6 +42,10 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
+var services = builder.Services;
+{
+    services.AddScoped<IFilmService, FilmService>();
+}
 
 var app = builder.Build();
 
@@ -56,6 +61,8 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.MapGet("/debug/routes", (IEnumerable<EndpointDataSource> endpointSources) =>
+        string.Join("\n", endpointSources.SelectMany(source => source.Endpoints)));
 }
 
 app.UseHttpsRedirection();
