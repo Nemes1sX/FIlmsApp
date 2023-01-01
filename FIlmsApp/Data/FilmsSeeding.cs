@@ -26,7 +26,7 @@ namespace FIlmsApp.Data
             var films = Builder<Film>.CreateListOfSize(500)
                 .All()
                 .With(m => m.Name = Faker.Name.FullName())
-                .With(m => m.GenreId = Faker.RandomNumber.Next(1,6))
+                .With(m => m.GenreId = rnd.Next(0, 5))
                 .With(m => m.ReleasedDate = DateTime.Now.AddYears(-random.Next(0, 50)))
                 .Build();
 

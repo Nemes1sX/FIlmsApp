@@ -22,7 +22,7 @@ namespace FIlmsApp.Services
 
         public async Task<List<Film>> GetAll()
         {
-            var films = await _db.Films.ToListAsync();
+            var films = await _db.Films.Include(x => x.Actors).ToListAsync();
 
             return films;
         }
