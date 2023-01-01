@@ -13,6 +13,7 @@ namespace FIlmsApp.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            FilmsSeeding.Seed(modelBuilder);
         }
 
         public DbSet<Film> Films { get; set; }
