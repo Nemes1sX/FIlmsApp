@@ -1,9 +1,6 @@
 ﻿using FIlmsApp.Models.Entities;
 using FizzWare.NBuilder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
-using System;
-using System.Reflection.Emit;
 
 namespace FIlmsApp.Data
 {
