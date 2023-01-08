@@ -1,4 +1,6 @@
+using AutoMapper;
 using FIlmsApp.Data;
+using FIlmsApp.Infrastructure;
 using FIlmsApp.Models.Entities;
 using FIlmsApp.Services;
 using FizzWare.NBuilder;
@@ -13,12 +15,22 @@ namespace FilmsAppTest
                .Options;
 
         private FilmService filmService;
+        private IMapper _mapper;
 
 
         [OneTimeSetUp]
         public void Setup()
         {
-            filmService = new FilmService(new FilmsContext(dbContext));
+            if (_mapper == null)
+            {
+                var mappingConfig = new MapperConfiguration(mc =>
+                {
+                    mc.AddProfile(new MappingProfile());
+                });
+                IMapper mapper = mappingConfig.CreateMapper();
+                _mapper = mapper;
+            }
+            filmService = new FilmService(new FilmsContext(dbContext), _mapper);
             SeedFilms();
         }
 
@@ -32,8 +44,8 @@ namespace FilmsAppTest
         private void SeedFilms()
         {
             var context = new FilmsContext(dbContext);
-            context.Database.EnsureCreated();
-            context.Database.EnsureDeleted();
+            /*context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();*/
 
             context.Genres.AddRange(new Genre { Id = 1, Name = "Action" },
                new Genre { Id = 2, Name = "Comedy" },

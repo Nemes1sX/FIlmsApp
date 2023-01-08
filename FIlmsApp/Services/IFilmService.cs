@@ -1,13 +1,14 @@
-﻿using FIlmsApp.Models.Entities;
+﻿using FIlmsApp.Models.Dtos;
 
 namespace FIlmsApp.Services
 {
     public interface IFilmService
     {
-        Task<List<Film>> GetAll();
-        Task<Film> Create();
+
+        Task<List<FilmDto>> GetAll();
+        Task<FilmDto> Create();
         Task<int> Delete(int id);
-        Task<Film> Update();
-        Task<Film> Read(int id);
+        Task<FilmDto> Update();
+        Task<FilmDto> Read(int id);
     }
 }
