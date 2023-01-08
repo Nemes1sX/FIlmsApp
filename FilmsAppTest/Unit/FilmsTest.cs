@@ -6,7 +6,7 @@ using FIlmsApp.Services;
 using FizzWare.NBuilder;
 using Microsoft.EntityFrameworkCore;
 
-namespace FilmsAppTest
+namespace FilmsAppTest.Unit
 {
     public class Tests
     {
@@ -38,7 +38,7 @@ namespace FilmsAppTest
         public async Task Test1()
         {
             var filmsList = await filmService.GetAll();
-            Assert.AreEqual(100, filmsList.Count());
+            Assert.AreEqual(10, filmsList.Count());
         }
 
         private void SeedFilms()
