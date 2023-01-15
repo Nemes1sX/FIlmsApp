@@ -17,10 +17,7 @@ namespace FIlmsApp.Services
         {
             var actor = await _db.Actors.FindAsync(filmFormRequest.ActorId);
             var genre = await _db.Genres.FindAsync(filmFormRequest.GenreId);
-            if (actor == null || genre == null)
-            {
-                return null;
-            }
+
             var film = new Film();
             film.Name = filmFormRequest.Name;
             film.ReleasedDate = filmFormRequest.ReleasedDate;
