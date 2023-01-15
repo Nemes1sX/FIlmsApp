@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using FIlmsApp.Data;
 using FIlmsApp.Models.Dtos;
+using FIlmsApp.Models.Entities;
+using FIlmsApp.Models.FormRequest;
 using Microsoft.EntityFrameworkCore;
 
 namespace FIlmsApp.Services
@@ -11,9 +13,23 @@ namespace FIlmsApp.Services
         {
         }
 
-        public Task<FilmDto> Create()
+        public async Task<FilmDto> Create(FilmFormRequest filmFormRequest)
         {
-            throw new NotImplementedException();
+            var actor = await _db.Actors.FindAsync(filmFormRequest.ActorId);
+            var genre = await _db.Genres.FindAsync(filmFormRequest.GenreId);
+            if (actor == null || genre == null)
+            {
+                return null;
+            }
+            var film = new Film();
+            film.Name = filmFormRequest.Name;
+            film.ReleasedDate = filmFormRequest.ReleasedDate;
+            film.Genre = genre;
+            film.Actors = new List<Actor> { actor };
+
+            await _db.SaveChangesAsync();
+
+            return _mapper.Map<FilmDto>(film);
         }
 
         public Task<int> Delete(int id)

@@ -2,6 +2,7 @@ using AutoMapper;
 using FIlmsApp.Data;
 using FIlmsApp.Infrastructure;
 using FIlmsApp.Models.Entities;
+using FIlmsApp.Models.FormRequest;
 using FIlmsApp.Services;
 using FizzWare.NBuilder;
 using Microsoft.EntityFrameworkCore;
@@ -35,11 +36,65 @@ namespace FilmsAppTest.Unit
         }
 
         [Test]
-        public async Task Test1()
+        public async Task FilmsService_GetAllFilms_Succesfully()
         {
             var filmsList = await filmService.GetAll();
             Assert.AreEqual(10, filmsList.Count());
         }
+
+        [Test]
+        public async Task FilmService_CreateFilm_SuccessFully()
+        {
+            //Act
+            var filmRequest = new FilmFormRequest();
+            filmRequest.Name = "name";
+            filmRequest.ReleasedDate = DateTime.Now;
+            filmRequest.GenreId = 1;
+            filmRequest.ActorId = 1;
+
+            //Arrange
+            var film = await filmService.Create(filmRequest);
+            Assert.AreEqual(filmRequest.Name, film.Name);
+            Assert.AreEqual(filmRequest.ReleasedDate, film.ReleasedDate);
+
+        }
+
+        [Test]
+        public async Task FilmService_CreateFilm_FailedActorsNotFound()
+        {
+            //Act
+            var filmRequest = new FilmFormRequest();
+            filmRequest.Name = "name";
+            filmRequest.ReleasedDate = DateTime.Now;
+            filmRequest.GenreId = 1;
+            filmRequest.ActorId = 101;
+
+            //Arrange
+            var film = await filmService.Create(filmRequest);
+
+            //Assert
+            Assert.Null(film);
+
+        }
+
+        [Test]
+        public async Task FilmService_CreateFilm_FailedGenreNotFound()
+        {
+            //Act
+            var filmRequest = new FilmFormRequest();
+            filmRequest.Name = "name";
+            filmRequest.ReleasedDate = DateTime.Now;
+            filmRequest.GenreId = 8;
+            filmRequest.ActorId = 1;
+
+            //Arrange
+            var film = await filmService.Create(filmRequest);
+
+            //Assert
+            Assert.Null(film);
+
+        }
+
 
         private void SeedFilms()
         {
