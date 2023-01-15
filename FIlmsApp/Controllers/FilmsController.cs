@@ -1,4 +1,5 @@
-﻿using FIlmsApp.Services;
+﻿using FIlmsApp.Models.FormRequest;
+using FIlmsApp.Services;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -40,8 +41,12 @@ namespace FIlmsApp.Controllers
 
         // POST api/<FilmsController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        [Route("create")]
+        public async Task<ActionResult> Post(FilmFormRequest filmFormRequest)
         {
+            var film = await _filmService.Create(filmFormRequest);
+
+            return Ok(new { film = film });
         }
 
         // PUT api/<FilmsController>/5

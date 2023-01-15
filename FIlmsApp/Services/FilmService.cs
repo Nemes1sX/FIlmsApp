@@ -27,6 +27,7 @@ namespace FIlmsApp.Services
             film.Genre = genre;
             film.Actors = new List<Actor> { actor };
 
+            _db.Films.Add(film);
             await _db.SaveChangesAsync();
 
             return _mapper.Map<FilmDto>(film);
