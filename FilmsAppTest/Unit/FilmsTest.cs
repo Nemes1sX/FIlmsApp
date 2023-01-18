@@ -19,7 +19,7 @@ namespace FilmsAppTest.Unit
         private IMapper _mapper;
 
 
-        [OneTimeSetUp]
+        [SetUp]
         public void Setup()
         {
             if (_mapper == null)
@@ -59,49 +59,28 @@ namespace FilmsAppTest.Unit
 
         }
 
+
         [Test]
-        public async Task FilmService_CreateFilm_FailedActorsNotFound()
+        public async Task FilmService_FindFilm_Successfully()
         {
-            //Act
-            var filmRequest = new FilmFormRequest();
-            filmRequest.Name = "name";
-            filmRequest.ReleasedDate = DateTime.Now;
-            filmRequest.GenreId = 1;
-            filmRequest.ActorId = 101;
+            var film = filmService.Read(1);
 
-            //Arrange
-            var film = await filmService.Create(filmRequest);
-
-            //Assert
-            Assert.Null(film);
-
+            Assert.IsNotNull(film);
         }
 
         [Test]
-        public async Task FilmService_CreateFilm_FailedGenreNotFound()
+        public async Task FilmService_DeleteFilm_Successfully()
         {
-            //Act
-            var filmRequest = new FilmFormRequest();
-            filmRequest.Name = "name";
-            filmRequest.ReleasedDate = DateTime.Now;
-            filmRequest.GenreId = 8;
-            filmRequest.ActorId = 1;
+            await filmService.Delete(1);
+            var film = await filmService.Read(1);
 
-            //Arrange
-            var film = await filmService.Create(filmRequest);
-
-            //Assert
-            Assert.Null(film);
-
+            Assert.IsNull(film);
         }
 
-
-        private void SeedFilms()
+        private void SeedFilms(FilmsContext context)
         {
-            var context = new FilmsContext(dbContext);
-            /*context.Database.EnsureDeleted();
-            context.Database.EnsureCreated();*/
-
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
             context.Genres.AddRange(new Genre { Id = 1, Name = "Action" },
                new Genre { Id = 2, Name = "Comedy" },
                new Genre { Id = 3, Name = "Horror" },

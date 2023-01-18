@@ -30,22 +30,36 @@ namespace FIlmsApp.Services
             return _mapper.Map<FilmDto>(film);
         }
 
-        public Task<int> Delete(int id)
+        public async Task<int> Delete(int id)
         {
-            throw new NotImplementedException();
+            var film = await _db.Films.FindAsync(id);
+            if (film == null)
+            {
+                return 0;
+            }
+
+            _db.Films.Remove(film);
+            await _db.SaveChangesAsync();
+
+            return id;
         }
 
         public async Task<List<FilmDto>> GetAll()
         {
             var films = await _db.Films.Include(x => x.Actors).Include(x => x.Genre).Take(10).ToListAsync();
-            var filmsDto = _mapper.Map<List<FilmDto>>(films);
 
-            return filmsDto;
+            return _mapper.Map<List<FilmDto>>(films);
         }
 
-        public Task<FilmDto> Read(int id)
+        public async Task<FilmDto> Read(int id)
         {
-            throw new NotImplementedException();
+            var film = await _db.Films.FindAsync(id);
+            if (film == null)
+            {
+                return null;
+            }
+
+            return _mapper.Map<FilmDto>(film);
         }
 
         public Task<FilmDto> Update()
