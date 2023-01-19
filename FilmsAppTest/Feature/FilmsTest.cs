@@ -1,27 +1,34 @@
-using AutoMapper;
+﻿using AutoMapper;
+using FIlmsApp.Controllers;
 using FIlmsApp.Data;
 using FIlmsApp.Infrastructure;
 using FIlmsApp.Models.Entities;
 using FIlmsApp.Models.FormRequest;
 using FIlmsApp.Services;
 using FizzWare.NBuilder;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace FilmsAppTest.Unit
+namespace FilmsAppTest.Feature
 {
     public class FilmsTest
     {
+        private FilmsController filmsController;
         private DbContextOptions<FilmsContext> dbContext = new DbContextOptionsBuilder<FilmsContext>()
-               .UseInMemoryDatabase(databaseName: "TestDb")
-               .Options;
-
+         .UseInMemoryDatabase(databaseName: "TestDb")
+         .Options;
         private FilmService filmService;
         private IMapper _mapper;
 
 
         [OneTimeSetUp]
-        public void Setup()
+        public void SetUp()
         {
             if (_mapper == null)
             {
@@ -33,49 +40,42 @@ namespace FilmsAppTest.Unit
                 _mapper = mapper;
             }
             filmService = new FilmService(new FilmsContext(dbContext), _mapper);
+            filmsController = new FilmsController(filmService);
+            //SeedFilms();
+        }
+
+        [Test]
+        public async Task Test_FIlmController_GetAllFIllms_NotFound()
+        {
+            var data = await filmsController.Get();
+
+            Assert.IsInstanceOf<NotFoundObjectResult>(data);
+        }
+
+
+        [Test]
+        public async Task Test_FIlmController_GetAllFIllms_OkResult()
+        {
             SeedFilms();
+
+            var data = await filmsController.Get();
+
+            Assert.IsInstanceOf<OkObjectResult>(data);
         }
 
         [Test]
-        public async Task FilmsService_GetAllFilms_Succesfully()
+        public async Task Test_FIlmController_CreateFilm_BadRequest()
         {
-            var filmsList = await filmService.GetAll();
-            Assert.AreEqual(10, filmsList.Count());
-        }
+            SeedFilms();
+            var request = new FilmFormRequest();
+            request.ActorId = 0;
+            request.GenreId= 0;
+            request.Name= "";
+            request.ReleasedDate = DateTime.Now;
 
-        [Test]
-        public async Task FilmService_CreateFilm_SuccessFully()
-        {
-            //Act
-            var filmRequest = new FilmFormRequest();
-            filmRequest.Name = "name";
-            filmRequest.ReleasedDate = DateTime.Now;
-            filmRequest.GenreId = 1;
-            filmRequest.ActorId = 1;
+            var data = await filmsController.Post(request);
 
-            //Arrange
-            var film = await filmService.Create(filmRequest);
-            Assert.AreEqual(filmRequest.Name, film.Name);
-            Assert.AreEqual(filmRequest.ReleasedDate, film.ReleasedDate);
-
-        }
-
-
-        [Test]
-        public async Task FilmService_FindFilm_Successfully()
-        {
-            var film = filmService.Read(1);
-
-            Assert.IsNotNull(film);
-        }
-
-        [Test]
-        public async Task FilmService_DeleteFilm_Successfully()
-        {
-            await filmService.Delete(1);
-            var film = await filmService.Read(1);
-
-            Assert.IsNull(film);
+            Assert.IsInstanceOf<BadRequestObjectResult>(data);
         }
 
         private void SeedFilms()
@@ -115,6 +115,5 @@ namespace FilmsAppTest.Unit
             context.Actors.AddRange(actors);
             context.SaveChanges();
         }
-
     }
 }
