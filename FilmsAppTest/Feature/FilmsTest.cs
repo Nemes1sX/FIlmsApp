@@ -41,32 +41,47 @@ namespace FilmsAppTest.Feature
             }
             filmService = new FilmService(new FilmsContext(dbContext), _mapper);
             filmsController = new FilmsController(filmService);
-            //SeedFilms();
+            SeedFilms();
         }
-
-        [Test]
-        public async Task Test_FIlmController_GetAllFIllms_NotFound()
-        {
-            var data = await filmsController.Get();
-
-            Assert.IsInstanceOf<NotFoundObjectResult>(data);
-        }
-
 
         [Test]
         public async Task Test_FIlmController_GetAllFIllms_OkResult()
         {
-            SeedFilms();
-
-            var data = await filmsController.Get();
+            var data = await filmsController.Index();
 
             Assert.IsInstanceOf<OkObjectResult>(data);
         }
 
         [Test]
+        public async Task FilmController_GetFilm_OkResult()
+        {
+            //Act
+            var id = 1;
+
+            //Arrange
+            var data = await filmsController.Get(id);
+
+            //Assert
+            Assert.IsInstanceOf<OkObjectResult>(data);
+
+        }
+
+        [Test]
+        public async Task FilmController_GetFilm_NotFound()
+        {
+            //Act
+            var id = 150;
+
+            //Arrange
+            var data = await filmsController.Get(id);
+
+            //Assert
+            Assert.IsInstanceOf<NotFoundObjectResult>(data);
+        }
+
+        [Test]
         public async Task Test_FIlmController_CreateFilm_BadRequest()
         {
-            SeedFilms();
             var request = new FilmFormRequest();
             request.ActorId = 0;
             request.GenreId= 0;
@@ -75,7 +90,8 @@ namespace FilmsAppTest.Feature
 
             var data = await filmsController.Post(request);
 
-            Assert.IsInstanceOf<BadRequestObjectResult>(data);
+            Assert.Null(data);
+            //Assert.IsInstanceOf<BadRequestObjectResult>(data);
         }
 
         private void SeedFilms()

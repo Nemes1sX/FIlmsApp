@@ -20,7 +20,7 @@ namespace FIlmsApp.Controllers
         // GET: api/<FilmsController>/index
         [HttpGet]
         [Route("index")]
-        public async Task<ActionResult> Get()
+        public async Task<ActionResult> Index()
         {
             var films = await _filmService.GetAll();
 
@@ -33,10 +33,18 @@ namespace FIlmsApp.Controllers
         }
 
         // GET api/<FilmsController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet]
+        [Route("id")]
+        public async Task<ActionResult> Get(int id)
         {
-            return "value";
+            var film = await _filmService.Read(id);
+
+            if (film == null)
+            {
+                return NotFound(new { message = "Selected film not found" });
+            }
+
+            return Ok(new { films = film });
         }
 
         // POST api/<FilmsController>
@@ -44,6 +52,10 @@ namespace FIlmsApp.Controllers
         [Route("create")]
         public async Task<ActionResult> Post(FilmFormRequest filmFormRequest)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { message = "Validation Error" });
+            }
             var film = await _filmService.Create(filmFormRequest);
 
             return Ok(new { film = film });

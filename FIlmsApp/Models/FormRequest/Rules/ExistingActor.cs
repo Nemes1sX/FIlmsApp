@@ -12,7 +12,6 @@ namespace FIlmsApp.Models.FormRequest.Rules
 
             var actors = _db.Films.Where(x => x.Id == filmFormRequest.ActorId).ToList();
 
- 
             return actors.Count == 0 || actors == null
                 ? new ValidationResult("Selected actor list don't exist")
                 : ValidationResult.Success;

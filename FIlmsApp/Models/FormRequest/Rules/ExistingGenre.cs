@@ -10,7 +10,7 @@ namespace FIlmsApp.Models.FormRequest.Rules
             var filmFormRequest = (FilmFormRequest)validationContext.ObjectInstance;
             var _db = (FilmsContext)validationContext.GetService(typeof(FilmsContext));
 
-            var genre = _db.Films.Find(filmFormRequest.ActorId);
+            var genre = _db.Films.SingleOrDefault(x => x.Id == filmFormRequest.GenreId);
 
             return genre == null
                 ? new ValidationResult("Selected genre list don't exist")
