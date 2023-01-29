@@ -82,7 +82,7 @@ namespace FilmsAppTest.Feature
         [Test]
         public async Task Test_FIlmController_CreateFilm_BadRequest()
         {
-            var request = new FilmFormRequest();
+            var request = new StoreFilmFormRequest();
             request.ActorId = 0;
             request.GenreId= 0;
             request.Name= "";

@@ -39,7 +39,10 @@ namespace FilmsAppTest.Unit
         [Test]
         public async Task FilmsService_GetAllFilms_Succesfully()
         {
+            //Arrange
             var filmsList = await filmService.GetAll();
+
+            //Assert
             Assert.AreEqual(10, filmsList.Count());
         }
 
@@ -47,7 +50,7 @@ namespace FilmsAppTest.Unit
         public async Task FilmService_CreateFilm_SuccessFully()
         {
             //Act
-            var filmRequest = new FilmFormRequest();
+            var filmRequest = new StoreFilmFormRequest();
             filmRequest.Name = "name";
             filmRequest.ReleasedDate = DateTime.Now;
             filmRequest.GenreId = 1;
@@ -55,6 +58,8 @@ namespace FilmsAppTest.Unit
 
             //Arrange
             var film = await filmService.Create(filmRequest);
+
+            //Assert
             Assert.AreEqual(filmRequest.Name, film.Name);
             Assert.AreEqual(filmRequest.ReleasedDate, film.ReleasedDate);
 
@@ -64,18 +69,73 @@ namespace FilmsAppTest.Unit
         [Test]
         public async Task FilmService_FindFilm_Successfully()
         {
-            var film = filmService.Read(1);
+            //Act
+            var id = 12;
 
+            //Arrange
+            var film = await filmService.Read(id);
+
+            //Assert
             Assert.IsNotNull(film);
+        }
+
+        [Test]
+        public async Task FIlmService_UpdateFilm_Successfully()
+        {
+            //Act 
+            var id = 101;
+            var filmFormRequest = new UpdateFilmRequest();
+            filmFormRequest.Name = "name1";
+            
+
+            //Arrange
+            var film = await filmService.Update(id, filmFormRequest);
+
+            //Assert
+            Assert.AreEqual(filmFormRequest.Name, film.Name);
+        }
+
+        [Test]
+        public async Task FIlmService_UpdateFilm_Failed()
+        {
+            //Act 
+            var id = 501;
+            var filmFormRequest = new UpdateFilmRequest();
+            filmFormRequest.Name = "name1";
+
+
+            //Arrange
+            var film = await filmService.Update(id, filmFormRequest);
+
+            //Assert
+            Assert.IsNull(film);
         }
 
         [Test]
         public async Task FilmService_DeleteFilm_Successfully()
         {
-            await filmService.Delete(1);
-            var film = await filmService.Read(1);
+            //Act
+            var id = 1;
 
+            //Arrange 
+            await filmService.Delete(id);
+            var film = await filmService.Read(id);
+
+            //Assert
             Assert.IsNull(film);
+        }
+
+        [Test]
+        public async Task FilmService_DeleteFilm_Failed()
+        {
+            //Act
+            var id = 501;
+
+            //Arrange
+            var deletedId = await filmService.Delete(id);
+
+            //Assert
+            Assert.Zero(deletedId);
         }
 
         private void SeedFilms()
