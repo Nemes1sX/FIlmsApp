@@ -23,7 +23,7 @@ namespace FIlmsApp.Data
             var films = Builder<Film>.CreateListOfSize(500)
                 .All()
                 .With(m => m.Name = Faker.Name.FullName())
-                .With(m => m.GenreId = rnd.Next(0, 5))
+                .With(m => m.GenreId = rnd.Next(1, 6))
                 .With(m => m.ReleasedDate = DateTime.Now.AddYears(-random.Next(0, 50)))
                 .Build();
 
@@ -40,8 +40,8 @@ namespace FIlmsApp.Data
 
             var pivotList = Builder<ActorFilm>.CreateListOfSize(100)
                 .All()
-                .With(m => m.ActorsId = rnd.Next(0, 499))
-                .With(x => x.FilmsId = rnd.Next(0, 499))
+                .With(m => m.ActorsId = rnd.Next(1, 500))
+                .With(x => x.FilmsId = rnd.Next(1, 500))
                 .Build();
 
             builder.Entity<Actor>()
