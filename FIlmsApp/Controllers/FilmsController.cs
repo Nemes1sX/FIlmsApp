@@ -50,7 +50,7 @@ namespace FIlmsApp.Controllers
         // POST api/<FilmsController>
         [HttpPost]
         [Route("create")]
-        public async Task<ActionResult> Post(FilmFormRequest filmFormRequest)
+        public async Task<ActionResult> Post(StoreFilmFormRequest filmFormRequest)
         {
             if (!ModelState.IsValid)
             {
