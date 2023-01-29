@@ -3,12 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FIlmsApp.Models.FormRequest
 {
-    public class FilmFormRequest : BaseFormRequest
+    public class StoreFilmFormRequest : BaseFormRequest
     {
         [ExistingGenre]
-        public int GenreId { get; set; }
+        public int? GenreId { get; set; }
         [ExistingActor]
-        public int ActorId { get; set; }
+        public int? ActorId { get; set; }
         [Required]
         public DateTime ReleasedDate { get; set; }
     }
