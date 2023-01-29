@@ -13,7 +13,7 @@ namespace FIlmsApp.Services
         {
         }
 
-        public async Task<FilmDto> Create(FilmFormRequest filmFormRequest)
+        public async Task<FilmDto> Create(StoreFilmFormRequest filmFormRequest)
         {
             var actor = await _db.Actors.FindAsync(filmFormRequest.ActorId);
             var genre = await _db.Genres.FindAsync(filmFormRequest.GenreId);
@@ -27,7 +27,9 @@ namespace FIlmsApp.Services
             _db.Films.Add(film);
             await _db.SaveChangesAsync();
 
-            return _mapper.Map<FilmDto>(film);
+            return  film != null
+                ? _mapper.Map<FilmDto>(film)
+                : null;
         }
 
         public async Task<int> Delete(int id)
@@ -62,9 +64,36 @@ namespace FIlmsApp.Services
             return _mapper.Map<FilmDto>(film);
         }
 
-        public Task<FilmDto> Update()
+        public async Task<FilmDto> Update(int id, UpdateFilmRequest filmFormRequest)
         {
-            throw new NotImplementedException();
+            var film = await _db.Films.FindAsync(id);
+
+            if (film == null)
+            {
+                return null;
+            }
+
+            var actor = await _db.Actors.FindAsync(filmFormRequest.ActorId);
+            var genre = await _db.Genres.FindAsync(filmFormRequest.GenreId);
+
+
+            film.Name = filmFormRequest.Name;
+            if (film.ReleasedDate != null)
+            {
+                film.ReleasedDate = filmFormRequest.ReleasedDate;
+            }
+            if (actor != null)
+            {
+                film.Actors = new List<Actor> { actor};
+            }
+            if (genre != null)
+            {
+                film.Genre = genre;
+            }
+
+            await _db.SaveChangesAsync();
+
+            return _mapper.Map<FilmDto>(film);
         }
     }
 }

@@ -7,9 +7,9 @@ namespace FIlmsApp.Services
     {
 
         Task<List<FilmDto>> GetAll();
-        Task<FilmDto> Create(FilmFormRequest filmFormRequest);
+        Task<FilmDto> Create(StoreFilmFormRequest filmFormRequest);
         Task<int> Delete(int id);
-        Task<FilmDto> Update();
+        Task<FilmDto> Update(int id, UpdateFilmRequest filmFormRequest);
         Task<FilmDto> Read(int id);
     }
 }
