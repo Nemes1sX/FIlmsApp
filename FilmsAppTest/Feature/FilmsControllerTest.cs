@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace FilmsAppTest.Feature
 {
-    public class FilmsTest
+    public class FilmsControllerTest
     {
         private FilmsController filmsController;
         private DbContextOptions<FilmsContext> dbContext = new DbContextOptionsBuilder<FilmsContext>()
