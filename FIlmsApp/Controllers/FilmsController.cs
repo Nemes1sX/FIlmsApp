@@ -29,7 +29,8 @@ namespace FIlmsApp.Controllers
                 return NotFound(new { message = "No films found" });
             }
 
-            return Ok(new {films = films});
+            //return Ok(new {films = films});
+            return Ok(films);
         }
 
         // GET api/<FilmsController>/5
@@ -52,10 +53,6 @@ namespace FIlmsApp.Controllers
         [Route("create")]
         public async Task<ActionResult> Post(StoreFilmFormRequest filmFormRequest)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(new { message = "Validation Error" });
-            }
             var film = await _filmService.Create(filmFormRequest);
 
             return Ok(new { film = film });
@@ -68,9 +65,18 @@ namespace FIlmsApp.Controllers
         }
 
         // DELETE api/<FilmsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete]
+        [Route("delete")]
+        public async Task<ActionResult>  Delete(int id)
         {
+            var deletedId = await _filmService.Delete(id);
+
+            if (deletedId == 0)
+            {
+                return NotFound(new {message = "Film was not found"});
+            }
+
+            return Ok(new { message = "FIlm was deleted" });
         }
     }
 }

@@ -5,7 +5,9 @@ VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIlmsApp", "FIlmsApp\FIlmsApp.csproj", "{0139C29C-02D7-4581-9D20-13A9223442A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilmsAppTest", "FilmsAppTest\FilmsAppTest.csproj", "{A77F99DE-EEAB-4904-80D7-BDAC15FC867F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FilmsAppTest", "FilmsAppTest\FilmsAppTest.csproj", "{A77F99DE-EEAB-4904-80D7-BDAC15FC867F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilmsApp_FeatureTest", "FilmsApp_FeatureTest\FilmsApp_FeatureTest.csproj", "{238EC296-62F2-4752-A66B-D772F47D9B2D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{A77F99DE-EEAB-4904-80D7-BDAC15FC867F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A77F99DE-EEAB-4904-80D7-BDAC15FC867F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A77F99DE-EEAB-4904-80D7-BDAC15FC867F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{238EC296-62F2-4752-A66B-D772F47D9B2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{238EC296-62F2-4752-A66B-D772F47D9B2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{238EC296-62F2-4752-A66B-D772F47D9B2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{238EC296-62F2-4752-A66B-D772F47D9B2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

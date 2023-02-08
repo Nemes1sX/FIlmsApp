@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FilmsAppTest.Feature
+namespace FilmsApp_FeatureTest
 {
     public static class FilmsSeedingTest
     {
