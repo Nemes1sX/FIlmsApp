@@ -58,7 +58,7 @@ namespace FIlmsApp.Services
             var film = await _db.Films.FindAsync(id);
             if (film == null)
             {
-                return null;
+                return new FilmDto();
             }
 
             return _mapper.Map<FilmDto>(film);

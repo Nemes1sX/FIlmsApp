@@ -33,19 +33,20 @@ namespace FIlmsApp.Controllers
             return Ok(films);
         }
 
-        // GET api/<FilmsController>/5
+        // GET api/<FilmsController>/get?id=5
         [HttpGet]
-        [Route("id")]
+        [Route("get")]
         public async Task<ActionResult> Get(int id)
         {
             var film = await _filmService.Read(id);
 
-            if (film == null)
+            if (film.Id == 0)
             {
                 return NotFound(new { message = "Selected film not found" });
             }
 
-            return Ok(new { films = film });
+            //return Ok(new { films = film });
+            return Ok(film);
         }
 
         // POST api/<FilmsController>
