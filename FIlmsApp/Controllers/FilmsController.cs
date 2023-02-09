@@ -56,19 +56,23 @@ namespace FIlmsApp.Controllers
         {
             var film = await _filmService.Create(filmFormRequest);
 
-            return Ok(new { film = film });
+            //return Ok(new { film = film });
+            return Ok(film);
         }
 
-        // PUT api/<FilmsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        // PUT api/<FilmsController>/update?id=5
+        [HttpPut("update")]
+        public async Task<ActionResult> Update(int id, [FromBody] UpdateFilmRequest filmRequest)
         {
+            var film = await _filmService.Update(id, filmRequest);
+
+            return Ok(film);
         }
 
-        // DELETE api/<FilmsController>/5
+        // DELETE api/<FilmsController>/delete?id=5
         [HttpDelete]
         [Route("delete")]
-        public async Task<ActionResult>  Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             var deletedId = await _filmService.Delete(id);
 
@@ -77,7 +81,7 @@ namespace FIlmsApp.Controllers
                 return NotFound(new {message = "Film was not found"});
             }
 
-            return Ok(new { message = "FIlm was deleted" });
+            return Ok(new { message = "FiIlm was deleted" });
         }
     }
 }
