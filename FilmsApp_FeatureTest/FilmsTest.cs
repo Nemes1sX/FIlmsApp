@@ -121,6 +121,25 @@ namespace FilmsApp_FeatureTest
         }
 
         [Fact]
+        public async Task FIlmController_UpdateFilm_NotFound()
+        {
+            var id = 501;
+            var filmRequest = new StoreFilmFormRequest();
+            filmRequest.Name = "Test1";
+            filmRequest.ActorId = 1;
+            filmRequest.GenreId = 1;
+            filmRequest.ReleasedDate = DateTime.Today;
+            var client = this.GetNewClient();
+
+            var response = await client.PutAsJsonAsync($"api/films/update?id={id}", filmRequest);
+            var stringResponse = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<FilmDto>(stringResponse);
+            var statusCode = response.StatusCode.ToString();
+
+            Assert.Equal("NotFound", statusCode);
+        }
+
+        [Fact]
         public async Task FIlmController_UpdateFilm_OkResult()
         {
             var id = 2;

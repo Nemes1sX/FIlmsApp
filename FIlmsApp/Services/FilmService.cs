@@ -27,9 +27,7 @@ namespace FIlmsApp.Services
             _db.Films.Add(film);
             await _db.SaveChangesAsync();
 
-            return  film != null
-                ? _mapper.Map<FilmDto>(film)
-                : null;
+            return _mapper.Map<FilmDto>(film);
         }
 
         public async Task<int> Delete(int id)

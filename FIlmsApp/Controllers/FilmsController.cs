@@ -66,6 +66,11 @@ namespace FIlmsApp.Controllers
         {
             var film = await _filmService.Update(id, filmRequest);
 
+            if (film == null)
+            {
+                return NotFound(new { message = "Updating record not found" });
+            }
+
             return Ok(film);
         }
 
