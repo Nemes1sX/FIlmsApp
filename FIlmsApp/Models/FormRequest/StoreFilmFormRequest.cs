@@ -9,7 +9,6 @@ namespace FIlmsApp.Models.FormRequest
         public int? GenreId { get; set; }
         [ExistingActor]
         public int? ActorId { get; set; }
-        [Required]
         public DateTime ReleasedDate { get; set; }
     }
 }

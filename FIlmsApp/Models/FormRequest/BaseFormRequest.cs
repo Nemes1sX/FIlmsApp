@@ -4,7 +4,7 @@ namespace FIlmsApp.Models.FormRequest
 {
     public abstract class BaseFormRequest
     {
-        [Required, MinLength(3), MaxLength(255)]
+        [Required, StringLength(255, MinimumLength = 3)]
         public string Name { get; set; }
     }
 }

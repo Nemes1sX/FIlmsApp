@@ -20,7 +20,7 @@ namespace FIlmsApp.Services
 
             var film = new Film();
             film.Name = filmFormRequest.Name;
-            film.ReleasedDate = filmFormRequest.ReleasedDate;
+            film.ReleasedDate = filmFormRequest.ReleasedDate == DateTime.MinValue ? filmFormRequest.ReleasedDate : DateTime.Today;
             film.Genre = genre;
             film.Actors = new List<Actor> { actor };
 
@@ -64,7 +64,7 @@ namespace FIlmsApp.Services
             return _mapper.Map<FilmDto>(film);
         }
 
-        public async Task<FilmDto> Update(int id, UpdateFilmRequest filmFormRequest)
+        public async Task<FilmDto> Update(int id, StoreFilmFormRequest filmFormRequest)
         {
             var film = await _db.Films.FindAsync(id);
 
@@ -78,10 +78,7 @@ namespace FIlmsApp.Services
 
 
             film.Name = filmFormRequest.Name;
-            if (film.ReleasedDate != null)
-            {
-                film.ReleasedDate = filmFormRequest.ReleasedDate;
-            }
+            film.ReleasedDate = filmFormRequest.ReleasedDate == DateTime.MinValue ? filmFormRequest.ReleasedDate : DateTime.Today;
             if (actor != null)
             {
                 film.Actors = new List<Actor> { actor};

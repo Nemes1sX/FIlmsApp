@@ -62,7 +62,7 @@ namespace FIlmsApp.Controllers
 
         // PUT api/<FilmsController>/update?id=5
         [HttpPut("update")]
-        public async Task<ActionResult> Update(int id, [FromBody] UpdateFilmRequest filmRequest)
+        public async Task<ActionResult> Update(int id, [FromBody] StoreFilmFormRequest filmRequest)
         {
             var film = await _filmService.Update(id, filmRequest);
 

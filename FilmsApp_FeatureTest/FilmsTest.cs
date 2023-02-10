@@ -105,7 +105,7 @@ namespace FilmsApp_FeatureTest
         public async Task FIlmController_UpdateFilm_BadRequest()
         {
             var id = 2;
-            var filmRequest = new UpdateFilmRequest();
+            var filmRequest = new StoreFilmFormRequest();
             filmRequest.Name = string.Empty;
             filmRequest.ActorId = 0;
             filmRequest.GenreId = 0;
@@ -124,7 +124,7 @@ namespace FilmsApp_FeatureTest
         public async Task FIlmController_UpdateFilm_OkResult()
         {
             var id = 2;
-            var filmRequest = new UpdateFilmRequest();
+            var filmRequest = new StoreFilmFormRequest();
             filmRequest.Name = "Test1";
             filmRequest.ActorId = 1;
             filmRequest.GenreId = 1;
