@@ -1,8 +1,8 @@
 import { Counter } from "./components/Counter";
 import { FetchData } from "./components/FetchData";
 import { Home } from "./components/Home";
-import { FilmsIndex } from "./components/Films/Index";
-import { FilmsRead } from "./components/Films/Read";
+import { FilmsIndex } from "./components/Films/FilmsIndex";
+import { FilmRead } from "./components/Films/FilmRead";
 import { FilmForm } from "./components/Films/FilmForm";
 
 const AppRoutes = [
@@ -19,12 +19,12 @@ const AppRoutes = [
     element: <FetchData />
     },
     {
-        path: '/film/index',
-        Element: <FilmsIndex/>
+        path: '/film',
+        element: <FilmsIndex/>
     },
     {
         path: '/film/read/:id',
-        element: <FilmsRead/>
+        element: <FilmRead/>
     },
     {
         path: '/film/create',
