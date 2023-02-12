@@ -84,7 +84,7 @@ namespace FilmsAppTest.Unit
         {
             //Act 
             var id = 101;
-            var filmFormRequest = new UpdateFilmRequest();
+            var filmFormRequest = new StoreFilmFormRequest();
             filmFormRequest.Name = "name1";
             
 
@@ -100,7 +100,7 @@ namespace FilmsAppTest.Unit
         {
             //Act 
             var id = 501;
-            var filmFormRequest = new UpdateFilmRequest();
+            var filmFormRequest = new StoreFilmFormRequest();
             filmFormRequest.Name = "name1";
 
 
