@@ -1,7 +1,7 @@
 import { Counter } from "./components/Counter";
 import { FetchData } from "./components/FetchData";
 import { Home } from "./components/Home";
-import { FilmsIndex } from "./components/Films/FilmsIndex";
+import FilmsIndex  from "./components/Films/FilmsIndex";
 import { FilmRead } from "./components/Films/FilmRead";
 import { FilmForm } from "./components/Films/FilmForm";
 
