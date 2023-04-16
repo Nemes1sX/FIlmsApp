@@ -20,9 +20,9 @@ namespace FIlmsApp.Controllers
         // GET: api/<FilmsController>/index
         [HttpGet]
         [Route("index")]
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index([FromQuery] string search = null)
         {
-            var films = await _filmService.GetAll();
+            var films = await _filmService.GetAll(search);
 
             if (films == null || films.Count() == 0) 
             {

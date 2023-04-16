@@ -1,34 +1,28 @@
 ﻿import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import {Link } from 'react-router-dom';
 
 export default function FilmsIndex() {
     const [films, setFilms] = useState([]);
-    const [filmsWithOutFilter, setFIlmsWIthoutFilter] = useState([]);
-    const [filmFilter, setFilmsFilter] = useState({
-        name: "",
-        genre: "",
-        actor: ""
-    });
+    const [keyword, setKeyword] = useState('');    
 
     useEffect(() => {
         getFilms();
-    }, [])
+    }, [keyword])
 
     function getFilms() {
-        fetch("api/films/index")
-            .then(response => response.json())
+        axios.get("api/films/index?search=" + keyword)
+            .then(response => response.data)
             .then(data => {
                 setFilms(data);
                 console.log(films);
+            })
+            .catch(error => {
+                let response = error.response;
+                if (response.status === 404) {
+                    setFilms([]);
+                }
             });
-            console.log(films);
-
-    }
-    
-
-    function filterFilms() {
-        var filmIdFilter = this.state.FilmId;
-        var filmNameFilter = this.state.FilmNameFilter;
     }
     
     function deleteFilm(id) {
@@ -43,27 +37,26 @@ export default function FilmsIndex() {
         alert('FIlm filter' + filmFilter);
     }
 
+    const searchResult = (e) => {
+        e.preventDefault();
+        setKeyword(e.target.value);
+        getFilms();
+    }
+    
     return (
             <div>
                 <Link to='/film/add' className="btn btn-success">
                     Add Film
-                </Link>
+            </Link>
+            <input onChange={searchResult} className="form-control m-2" value={keyword} placeholder="Filter" />
+                    
                 <table className="table table-striped">
                     <thead>
                         <tr>
                             <th width="10px">
                                 <div className="d-flex flex-row">
 
-                                    <input className="form-control m-2"
-                                        placeholder="Filter" />
-
-                                    <button type="button" className="btn btn-light"
-                                        onClick={() => sortResult('FilmName', true)}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-down-square-fill" viewBox="0 0 16 16">
-                                            <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5a.5.5 0 0 1 1 0z" />
-                                        </svg>
-                                    </button>
-
+                                 
 
                                 </div>
                               Id
@@ -107,8 +100,8 @@ export default function FilmsIndex() {
                             </tr>
                         )}
                     </tbody>
-                </table>
- 
+            </table>
+            {films.length === 0 && <h2> No records.</h2>}
             </div >
         )
     }

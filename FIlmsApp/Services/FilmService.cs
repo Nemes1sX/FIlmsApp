@@ -44,9 +44,16 @@ namespace FIlmsApp.Services
             return id;
         }
 
-        public async Task<List<FilmDto>> GetAll()
+        public async Task<List<FilmDto>> GetAll(string search = null)
         {
-            var films = await _db.Films.Include(x => x.Actors).Include(x => x.Genre).Take(10).ToListAsync();
+            var films = _db.Films.Include(x => x.Actors).Include(x => x.Genre).AsQueryable();
+
+            if (!string.IsNullOrEmpty(search) && search != "undefined")
+            {
+                films = films.Where(x => x.Name.ToLower().StartsWith(search.ToLower()) || x.Actors.Any(y => y.Name.ToLower().StartsWith(search.ToLower())));
+            }
+
+            var filmsList = await films.ToListAsync();
 
             return _mapper.Map<List<FilmDto>>(films);
         }
