@@ -1,4 +1,5 @@
-﻿import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState} from 'react';
+import useDebounce from '../../customHooks/useDebounce';
 import axios from 'axios';
 import {Link } from 'react-router-dom';
 
@@ -6,9 +7,11 @@ export default function FilmsIndex() {
     const [films, setFilms] = useState([]);
     const [keyword, setKeyword] = useState('');    
 
+    const debouncedKeyword = useDebounce(keyword, 500);
+
     useEffect(() => {
         getFilms();
-    }, [keyword])
+    }, [debouncedKeyword])
 
     function getFilms() {
         axios.get("api/films/index?search=" + keyword)
