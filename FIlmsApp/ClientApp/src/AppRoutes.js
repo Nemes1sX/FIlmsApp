@@ -1,9 +1,9 @@
 import { Counter } from "./components/Counter";
 import { FetchData } from "./components/FetchData";
-import { Home } from "./components/Home";
+import Home  from "./components/Home";
 import FilmsIndex  from "./components/Films/FilmsIndex";
-import { FilmRead } from "./components/Films/FilmRead";
-import { FilmForm } from "./components/Films/FilmForm";
+import FilmRead  from "./components/Films/FilmRead";
+import FilmForm  from "./components/Films/FilmForm";
 
 const AppRoutes = [
   {
